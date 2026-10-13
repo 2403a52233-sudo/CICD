@@ -1,173 +1,34 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website</title>
+name: My First CI Pipeline
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: white;
-            min-height: 100vh;
-        }
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-        nav {
-            background: #1e293b;
-            padding: 22px;
-            text-align: center;
-        }
+    steps:
+      - name: Get Project Code
+        uses: actions/checkout@v4
 
-        nav h2 {
-            color: #38bdf8;
-            margin-bottom: 12px;
-        }
+      - name: Check HTML File
+        run: test -f index.html
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 12px;
-        }
+      - name: Test Website Heading
+        run: grep -q "Welcome to My College" index.html
 
-        nav a:hover {
-            color: #38bdf8;
-        }
+      - name: Test Page Title
+        run: grep -q "My College Website" index.html
 
-        .hero {
-            min-height: 65vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #1e3a8a, #581c87);
-        }
+      - name: Test Courses Section
+        run: grep -q 'id="courses"' index.html
 
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
+      - name: Test Facilities Section
+        run: grep -q 'id="facilities"' index.html
 
-        .hero p {
-            font-size: 18px;
-            color: #e2e8f0;
-            line-height: 1.8;
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 13px 25px;
-            background: #38bdf8;
-            color: #0f172a;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background: white;
-            transform: translateY(-3px);
-        }
-
-        .features {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            padding: 45px 20px;
-        }
-
-        .card {
-            background: #1e293b;
-            padding: 30px;
-            width: 250px;
-            text-align: center;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: #38bdf8;
-        }
-
-        .card h3 {
-            color: #38bdf8;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            background: #1e293b;
-            padding: 20px;
-            text-align: center;
-            color: #cbd5e1;
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 34px;
-            }
-
-            nav a {
-                display: inline-block;
-                margin: 8px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav>
-        <h2>MY COLLEGE</h2>
-        <a href="#home">Home</a>
-        <a href="#courses">Courses</a>
-        <a href="#facilities">Facilities</a>
-    </nav>
-
-    <section class="hero" id="home">
-        <h1>Welcome to My College</h1>
-
-        <p>
-            Learn. Innovate. Achieve.<br>
-            Building bright futures through quality education.
-        </p>
-
-        <a href="#courses" class="btn">Explore More</a>
-    </section>
-
-    <section class="features" id="courses">
-        <div class="card">
-            <h3>📚 Courses</h3>
-            <p>Explore technology, science and engineering programs.</p>
-        </div>
-
-        <div class="card" id="facilities">
-            <h3>💻 Laboratories</h3>
-            <p>Develop practical skills through hands-on learning.</p>
-        </div>
-
-        <div class="card">
-            <h3>🏆 Campus Life</h3>
-            <p>Discover opportunities, activities and new experiences.</p>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2026 My College | CI/CD Lab Practical</p>
-    </footer>
-
-</body>
-</html>
+      - name: Show Success
+        run: echo "All tests passed!"
