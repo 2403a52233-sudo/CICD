@@ -1,0 +1,34 @@
+
+name: My First CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Project Code
+        uses: actions/checkout@v4
+
+      - name: Check HTML File
+        run: test -f index.html
+
+      - name: Test Website Heading
+        run: grep -q "Welcome to My College" index.html
+
+      - name: Test Page Title
+        run: grep -q "My College Website" index.html
+
+      - name: Test Courses Section
+        run: grep -q 'id="courses"' index.html
+
+      - name: Test Facilities Section
+        run: grep -q 'id="facilities"' index.html
+
+      - name: Show Success
+        run: echo "All tests passed!"
